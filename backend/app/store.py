@@ -8,6 +8,9 @@ from typing import Any
 
 from app.seed import SEED_ROWS
 
+# 仅供某一业务模块内部使用的辅助表（检查流水、幂等批次等），不进运营概览的模块统计。
+INTERNAL_TABLES = {"firealarm_checks", "firealarm_batches"}
+
 
 class Store:
     def __init__(self) -> None:
@@ -16,7 +19,7 @@ class Store:
         }
 
     def module_names(self) -> list[str]:
-        return sorted(self._tables)
+        return sorted(name for name in self._tables if name not in INTERNAL_TABLES)
 
     def rows(self, module: str) -> list[dict[str, Any]]:
         return self._tables.setdefault(module, [])
