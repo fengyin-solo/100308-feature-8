@@ -28,6 +28,18 @@ class EntryPayload(BaseModel):
     remark: str | None = None
 
 
+class BatchCheckPayload(BaseModel):
+    """一次勾选多台消防设施批量登记检查。
+
+    batch_id 由前端生成并在重复提交时保持不变，后端据此保证同一批只记一次。
+    """
+
+    batch_id: str
+    inspector: str
+    facility_ids: list[int]
+    remark: str | None = None
+
+
 
 class SiteEntry(BaseModel):
     """基站明细结构。"""
